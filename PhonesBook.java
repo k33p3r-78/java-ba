@@ -14,10 +14,11 @@ public class PhonesBook {
             userInput = inputStream.nextLine();
             userInput = userInput.substring(0, 1).toUpperCase() +
                             userInput.substring(1).toLowerCase();
-            if (userInput.split(userInput).length != 2) {
+            if (userInput.split(" ").length != 2) {
                 if (userInput.equalsIgnoreCase("q")){ break; }
                 System.out.println("Некорректные данные, повторите попытку.");
             }
+
         }
 
         inputStream.close();
