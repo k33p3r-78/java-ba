@@ -1,34 +1,45 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+
 
 
 public class PhonesBook {
 
+    class byValuesDesc {
+        public int compare(String s1, String s2)
+        {
+            int lengthS1 = s1.length();
+            int lengthS2 = s2.length();
+    
+            if (lengthS1 == lengthS2)
+                return 0;
+            else if (lengthS1 > lengthS2)
+                return 1;
+            else
+                return -1;
+        }
+    }
+
     private static void PrintBase(HashMap<String, String> phonesMap) {
-        // LinkedHashMap<String, String> sortedBase = new LinkedHashMap<>();
 
-        // phonesMap.entrySet()
-        //             .stream()
-        //             .sorted(Map.Entry.<String>comparingByValue(String::length).reversed())
-        //             .forEachOrdered(x -> sortedBase.put(x.getKey(), x.getValue()));
-        
-        // phonesMap.forEach((key, value) -> System.out.println(key + ":" + value));
-
-        Map<String, String> phonesSorted = new TreeMap<String, String>(
-            new Comparator<String>() {
-                @Override
-                public int compare(String s1, String s2) {
-                    return Integer.compare(s1.length(), s2.length());
-                }
-            }
-        );
-
-        phonesSorted.putAll(phonesMap);
-        System.out.println(phonesSorted);
+        List<Map.Entry<String, String>> list = new ArrayList<>();
+        HashMap<String, String> sortedMap = phonesMap.entrySet()
+                                            .stream()
+                                            .sorted(Comparator.comparing(itm -> itm.toString().length()).reversed())
+                                            .collect(Collectors.toMap(
+                                                Map.Entry::getKey, 
+                                                Map.Entry::getValue,
+                                                (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        list.addAll(sortedMap.entrySet());
+        list.forEach(i -> System.out.println(i));
     }
 
     public static void main(String[] args) {
@@ -40,6 +51,7 @@ public class PhonesBook {
         
         while (true) {
             userInput = inputStream.nextLine();
+            if (userInput.length() == 0) { continue; }
             userInput = userInput.substring(0, 1).toUpperCase() +
                             userInput.substring(1).toLowerCase();
             if (userInput.split(":").length != 2) {
@@ -48,11 +60,11 @@ public class PhonesBook {
                 } else if (userInput.equalsIgnoreCase("p")) { 
                     PrintBase(phonesBase);
                     continue;
-                } else {
-                    System.out.println("Некорректные данные, повторите попытку.");
                 }
-                
+                System.out.println("Некорректные данные, повторите попытку.");
+                continue;
             }
+                
 
             String contactName = userInput.split(":")[0];
             String contactPhone = userInput.split(":")[1];
