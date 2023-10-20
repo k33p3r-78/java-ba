@@ -1,32 +1,15 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 
 
 public class PhonesBook {
-
-    class byValuesDesc {
-        public int compare(String s1, String s2)
-        {
-            int lengthS1 = s1.length();
-            int lengthS2 = s2.length();
-    
-            if (lengthS1 == lengthS2)
-                return 0;
-            else if (lengthS1 > lengthS2)
-                return 1;
-            else
-                return -1;
-        }
-    }
 
     private static void PrintBase(HashMap<String, String> phonesMap) {
 
